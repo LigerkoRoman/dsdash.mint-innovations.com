@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+    {% block title %}
+    {% endblock %}
+  </title>
+	<link rel="stylesheet" href="{% static '/css/PhilipMorris.css' %}">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+	<main>
+		<menu>
+			<nav class="menu">
+				<ul class="menu-list">
+          <li class="port"><img src="" alt="" class="a"></li>
+					<li class="port"><a href="{% url 'dashboardgr' %}">XML</a></li>
+					<li class="port"><a href="{% url 'dashboardgrimages' %}">IMAGES</a></li>
+
+				</ul>
+		</menu>
+
+
+
+
+<div class="glob-wrap">
+      <h2 style="padding:0 0 20px 20px">PhilipMorris</h2>
+
+
+
+
+        	  <a href="#" class="dash-but" onclick="showPhilipMorris()">Load</a>
+
+
+
+
+
+          				<div class="divGraph" id="divChart">
+
+          			      <canvas id="densityChart" class="graph" height="850px"></canvas>
+
+          	  		 </div>
+
+
+
+
+
+
+
+
+
+
+	</div>
+
+
+		</main>
+		</body>
+
+<script>
+
+  function showPhilipMorris(){
+    $.ajax({
+
+        type: 'GET',
+        cach: false,
+        async: false,
+        url:  "{% url 'add_ajaxsix' %}",
+        data: "inputs + '&ran=' + Math.rand()",
+        success: function(data) {
+
+
+            var NumberOfSigaretsArray = data['NumberOfSigaretsArray']
+            console.log(NumberOfSigaretsArray)
+
+
+            var densityCanvas = document.getElementById("densityChart");
+            Chart.defaults.global.defaultFontFamily = "Lato";
+            Chart.defaults.global.defaultFontSize = 16;
+
+
+            var densityData = {
+              label: 'Numbers',
+              data: NumberOfSigaretsArray,
+              backgroundColor: ['rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+                                'rgba(140, 99, 132, 0.6)',
+
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+                                'rgba(90, 99, 132, 0.9)',
+
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+                                'rgba(30, 99, 132, 0.6)',
+
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+                                'rgba(30, 9, 132, 0.6)',
+
+                                'rgba(30, 9, 12, 0.6)',
+                                'rgba(30, 9, 12, 0.6)',
+                                'rgba(30, 9, 12, 0.6)',
+
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+                                'rgba(130, 9, 132, 0.6)',
+
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+                                'rgba(255 ,0 ,0, 0.6)',
+
+                                'rgba(10, 229, 32, 0.6)',
+                                'rgba(10, 229, 32, 0.6)',
+                                'rgba(10, 229, 32, 0.6)',
+                                'rgba(10, 229, 32, 0.6)',
+
+
+
+                                ],
+            };
+
+            var chartOptions = {
+              scales: {
+                yAxes: [{
+                  barPercentage: 0.5
+                }]
+              },
+              elements: {
+                rectangle: {
+                  borderSkipped: 'left',
+                }
+              }
+            };
+
+            var barChart = new Chart(densityCanvas, {
+              type: 'horizontalBar',
+              data: {
+                labels: [
+                    "PhilipMorrisBlue",
+                     "PhilipMorrisBlue25",
+                      "PhilipMorrisGold",
+                       "PhilipMorrisNovelBlue",
+                        "PhilipMorrisNovelMix",
+                         "PhilipMorrisNovelRed",
+                          "PhilipMorrisNovelSilver",
+                           "PhilipMorrisRed",
+                           "PhilipMorrisRed25",
+                           "PhilipMorrisRedKingSize",
+                           "ParliamentAquaBlue",
+                           "ParliamentCaratBlue",
+                           "ParliamentCaratPurple",
+                           "ParliamentNightBlue",
+                           "ParliamentPearlBlue",
+                           "ParliamentPlatinum",
+                           "ParliamentSilverBlue",
+                           "ParliamentSilverSuperSlims",
+                           "ParliamentAquaSuperSlims",
+                           "Next Violet",
+                           "Next Pink",
+                            "BondBlue6",
+                            "BondBlueSelection",
+                            "BondBlueSelection25",
+                            "BondPremiumMix",
+                            "BondPremiumSilver",
+                            "BondRedSelection",
+                            "BondRedSelection25",
+                            "BondSilverClassic",
+                            "BondSilverClassic25",
+                            "BondBlue6_2019",
+                            "BondBlueSelection_2019",
+                            "BondBlueSelection25_2019",
+                            "BondPremiumSilver_2019",
+                            "BondRedSelection_2019",
+                            "BondRedSelection25_2019",
+                            "BondSilverClassic_2019",
+                            "BondSilverClassic25_2019",
+                            "ChesterfieldKSBlue",
+                            "ChesterfieldKSBronze",
+                            "ChesterfieldKSRed",
+
+                            "LMBlueLabel",
+                          "LMFineCutSilver",
+                          "LMLoftBlue",
+                          "LMLoftDoubleSplash",
+                          "LMLoftMix",
+                          "LMLoftNightBlue",
+                          "LMLoftSeaBlue",
+                          "LMSmartSeriesRed",
+
+
+                          "MarlboroFineTouchLightBlue",
+                          "MarlboroFlavorMix",
+                          "MarlboroGold",
+                        "MarlboroMicro",
+                        "MarlboroRed",
+                          "MarlboroSilver",
+                        "MarlboroTouchBlue",
+
+                        "MurattiGreen",
+                        "MurattiPeach",
+                        "MurattiPink",
+                        "MurattyViolet",
+
+
+                ],
+                datasets: [densityData]
+              },
+              options: chartOptions
+            });
+
+
+
+
+
+
+            },
+        dataType: 'json',
+
+        });
+
+      }
+
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js" ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+</html>

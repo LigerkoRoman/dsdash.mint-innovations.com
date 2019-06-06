@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+    {% block title %}
+    {% endblock %}
+  </title>
+	<link rel="stylesheet" href="{% static '/css/ImagesGlassFridge.css' %}">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+	<main>
+		<menu>
+			<nav class="menu">
+				<ul class="menu-list">
+          <li class="port"><img src="" alt="" class="a"></li>
+          <li class="port"><a href="{% url 'dashboardgr' %}" >XML</a></li>
+					<li class="port"><a href="{% url 'dashboardgrimages' %}" >IMAGES</a></li>
+
+				</ul>
+		</menu>
+
+
+
+
+<div class="glob-wrap">
+      <h2 style="padding:0 0 20px 20px">GlassFridge</h2>
+
+
+        	  <a href="#" class="dash-but" onclick="showGlassFridgeImages()">Load</a>
+
+
+
+          <div class="graph" >
+
+          				<div class="graph-wrap" >
+
+          					<div class="divGraph" id="divChart">
+          						<h3 style="text-align: center; display: none" id="h3">Diagonals</h3>
+          			      <canvas id="myChart"  width="630px" height="430px"></canvas>
+
+          	  		 </div>
+          				 <div class="divGraph" id="divChart2" style="margin-top:-50px">
+          					 <h3 style="text-align: center; display: none" id="h3">Sides Atittudes</h3>
+          					 <canvas id="myChart2" style="margin-top:50px"  width="630px" height="430px"></canvas>
+
+          				</div>
+
+          			</div>
+
+
+          </div>
+
+
+
+
+
+	</div>
+
+
+		</main>
+		</body>
+    <script>
+
+      function showGlassFridgeImages(){
+    $.ajax({
+
+        type: 'GET',
+        cach: false,
+        async: false,
+        url:  "{% url 'add_ajaxfive' %}",
+        data: "inputs + '&ran=' + Math.rand()",
+        success: function(data) {
+          var a = []
+          for(var i=1; i<=5; i++){
+            a.push(i)
+          }
+          var redTh =data['redTh']
+          var redFif = data['redFif']
+          var redSix = data['RedSix']
+
+          console.log(redTh)
+          console.log(redFif)
+          console.log(redSix)
+          var red_mean = data['red_mean']
+          var green_mean = data['green_mean']
+          var blue_mean = data['blue_mean']
+          var overall_mean = data['overall_mean']
+
+          var red_stand = data['red_stand']
+          var green_stand = data['green_stand']
+          var blue_stand = data['blue_stand']
+          var overall_stand = data['overall_stand']
+
+
+
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+
+
+                // The data for our dataset
+                data: {
+                    showLine:false,
+                    labels: a,
+                    datasets: [
+
+                      {
+
+
+                        label: 'red_mean',
+
+
+                        backgroundColor: 'rgb(255, 0, 0, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: red_mean,
+                    },
+                    {
+
+
+                        label: 'green_mean',
+
+                        backgroundColor: 'rgb(0, 255, 0, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: green_mean,
+                    },
+                    {
+
+                        label: 'blue_mean',
+
+                        backgroundColor: 'rgb(0, 0, 255, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: blue_mean,
+                    },
+                    {
+
+                        label: 'overall_mean',
+
+                        backgroundColor: 'rgb(15, 15, 123, 0.4)',
+                        borderColor: 'rgb(25, 9, 12, 0.4)',
+                        data: overall_mean,
+                    },
+
+                ]
+
+                },
+
+                // Configuration options go here
+                options: {
+                     title: {
+                         display: true,
+                         text: 'RED GREEN BLUE mean'
+                     },
+
+                 }
+            });
+
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+            var chart2 = new Chart(ctx2, {
+                // The type of chart we want to create
+                type: 'line',
+
+
+                // The data for our dataset
+                data: {
+                    showLine:false,
+                    labels: a,
+                    datasets: [
+
+                      {
+
+
+                        label: 'red_mean',
+                        pointRadius:"20px",
+
+                        backgroundColor: 'rgb(255, 0, 0, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: red_stand,
+                    },
+                    {
+
+                          pointRadius:"20px",
+                        label: 'green_mean',
+
+                        backgroundColor: 'rgb(0, 255, 0, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: green_stand,
+                    },
+                    {
+                      pointRadius:"20px",
+                        label: 'blue_mean',
+
+                        backgroundColor: 'rgb(0, 0, 255, 0.4)',
+                        borderColor: 'rgb(255, 99, 132, 0.4)',
+                        data: blue_stand,
+                    },
+                    {
+                      pointRadius:"20px",
+                        label: 'overall_mean',
+
+                        backgroundColor: 'rgb(15, 15, 123, 0.4)',
+                        borderColor: 'rgb(25, 9, 12, 0.4)',
+                        data: overall_stand,
+                    },
+
+                ]
+
+                },
+
+                // Configuration options go here
+                options: {
+                     title: {
+                         display: true,
+                         text: 'RED GREEN BLUE stand'
+                     },
+
+                 }
+            });
+
+
+
+
+
+
+
+
+          },
+    dataType: 'json',
+
+    });
+
+      }
+
+
+
+    </script>
